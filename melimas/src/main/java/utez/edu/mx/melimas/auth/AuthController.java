@@ -9,7 +9,7 @@ import utez.edu.mx.melimas.user.model.UserEntity;
 @RequestMapping("/cursos/auth")
 @CrossOrigin("*")
 public class AuthController {
-
+// este es el controlador de autenticación
     @Autowired
     private AuthService authService;
 
