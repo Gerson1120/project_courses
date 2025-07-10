@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { login } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import { login } from "../services/authService";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -10,19 +10,21 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
+
         try {
             const response = await login(email, password);
-            // Guarda el token o info según tu backend
-            localStorage.setItem("token", response.data.token);
-            navigate("/dashboard"); // O a donde quieras ir
+            const token = response.data.token;
+            localStorage.setItem("token", token);
+            navigate("/dashboard"); // Cambia a la ruta protegida que uses
         } catch (err) {
-            setError("Credenciales inválidas");
+            setError("Correo o contraseña incorrectos");
         }
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Iniciar Sesión</h2>
+            <h2>Iniciar sesión</h2>
             <input
                 type="email"
                 placeholder="Correo"
@@ -39,12 +41,6 @@ export default function Login() {
             />
             {error && <p style={{ color: "red" }}>{error}</p>}
             <button type="submit">Entrar</button>
-            <p>
-                ¿No tienes cuenta? <a href="/register">Regístrate</a>
-            </p>
-            <p>
-                <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
-            </p>
         </form>
     );
 }

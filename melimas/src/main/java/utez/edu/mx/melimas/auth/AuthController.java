@@ -7,7 +7,8 @@ import utez.edu.mx.melimas.user.model.UserEntity;
 
 @RestController
 @RequestMapping("/cursos/auth")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
+
 public class AuthController {
 // este es el controlador de autenticación
     @Autowired
