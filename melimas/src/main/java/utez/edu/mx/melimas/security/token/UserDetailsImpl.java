@@ -3,35 +3,37 @@ package utez.edu.mx.melimas.security.token;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import utez.edu.mx.melimas.user.model.UserEntity;
 
 import java.util.Collection;
 import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final UsuariosEntity usuario;
+    private final UserEntity user;
 
-    public UserDetailsImpl(UsuariosEntity usuario) {
-        this.usuario = usuario;
+    public UserDetailsImpl(UserEntity user) {
+        this.user = user;
     }
 
-    public static UserDetailsImpl build(UsuariosEntity usuario) {
-        return new UserDetailsImpl(usuario);
+    public static UserDetailsImpl build(UserEntity user) {
+        return new UserDetailsImpl(user);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toUpperCase()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRol()));
+
     }
 
     @Override
     public String getPassword() {
-        return usuario.getContraseña();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return usuario.getCorreo();
+        return user.getEmail();
     }
 
     @Override
@@ -45,10 +47,10 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return usuario.getEstado().equalsIgnoreCase("activo");
+        return user.getStatusActive();
     }
 
-    public UsuariosEntity getUsuario() {
-        return usuario;
+    public UserEntity getUser() {
+        return user;
     }
 }
